@@ -1,10 +1,11 @@
 import math
+from .models import RhetoricalForceVector
 
 def sigmoid(x: float) -> float:
     """Standard sigmoid function."""
     return 1 / (1 + math.exp(-x))
 
-def calculate_semantic_mass(
+def estimate_semantic_mass_proxy(
     centrality: float,
     stability: float,
     alpha: float = 1.0,
@@ -12,6 +13,7 @@ def calculate_semantic_mass(
 ) -> float:
     """
     Calculates Semantic Mass (Ms) for a concept.
+    Approximates the v3.0 Topological Stability (Ms) using efficient graph centrality and variance proxies, as defined in the Hybrid-Proxy Protocol.
 
     Formula: Ms(c) = alpha * C(c) + beta * T_stability(c)
 
@@ -26,43 +28,48 @@ def calculate_semantic_mass(
     """
     return alpha * centrality + beta * stability
 
-def calculate_rhetorical_force_magnitude(
-    embedding_magnitude: float,
-    sentiment_intensity: float,
-    repetition_frequency: float
-) -> float:
+def calculate_force_vector(
+    logos: float,
+    pathos: float,
+    ethos: float
+) -> RhetoricalForceVector:
     """
-    Calculates the magnitude of Rhetorical Force (Fr).
-
-    Formula: |Fr| = |V(I)| * (1 + lambda_emotional) * (1 + lambda_repetition)
+    Calculates the Rhetorical Force Vector (Fr).
 
     Args:
-        embedding_magnitude (float): The magnitude of the raw embedding vector |V(I)|.
-        sentiment_intensity (float): Sentiment intensity score (lambda_emotional).
-        repetition_frequency (float): Frequency of the concept in input (lambda_repetition).
+        logos (float): Logic/Evidence force score.
+        pathos (float): Emotional force score.
+        ethos (float): Source authority force score.
 
     Returns:
-        float: The magnitude of Rhetorical Force.
+        RhetoricalForceVector: The decomposed rhetorical force vector.
     """
-    return embedding_magnitude * (1 + sentiment_intensity) * (1 + repetition_frequency)
+    return RhetoricalForceVector(logos=logos, pathos=pathos, ethos=ethos)
 
 def calculate_ethos_coefficient(
     reliability_history: float,
-    bias_penalty: float
+    bias_penalty: float,
+    threshold: float = 0.3
 ) -> float:
     """
     Calculates the Ethos Coefficient (eta).
 
     Formula: eta(s) = sigmoid(R_history(s) - P_bias(s))
 
+    If the calculated eta is less than the threshold, it snaps to 0.0 (Circuit Breaker).
+
     Args:
         reliability_history (float): Historical reliability score (R_history).
         bias_penalty (float): Detected bias penalty (P_bias).
+        threshold (float): The Circuit Breaker threshold. Default is 0.3.
 
     Returns:
         float: The Ethos Coefficient, normalized between 0 and 1.
     """
-    return sigmoid(reliability_history - bias_penalty)
+    eta = sigmoid(reliability_history - bias_penalty)
+    if eta < threshold:
+        return 0.0
+    return eta
 
 def calculate_semantic_acceleration(
     force_magnitude: float,
