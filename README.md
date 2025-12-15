@@ -20,7 +20,7 @@ This repository focuses exclusively on **SPM Defense**: the application of these
 Traditional NLP treats meaning as a static location in vector space. SPM treats meaning as a **dynamic object** with mass and velocity, subject to rhetorical forces.
 
 ### The Governing Equation
-The movement of any concept $c$ in the semantic field is governed by the **Second Postulate of Semantic Dynamics**:
+The movement of any concept $c$ in the semantic field is governed by the **Second Postulate of Semantic Dynamics** (for rigorous definitions, see [Core Equations](docs/core_equations.md)):
 
 $$\vec{A_s} = \frac{\eta \cdot \vec{F_r}}{M_s}$$
 
@@ -50,6 +50,9 @@ Prevent "Catastrophic Semantic Forgetting" during model updates.
 
 ## 🤝 Contributing & Ethics
 This project is open-source to prevent the hoarding of semantic control techniques.
+
+*   **For AI Agents:** See [Agent Instructions](agents.md).
+*   **For Developers:** See [Coding Guidelines](coding_agent.md).
 
 **Ethical Boundary:**
 * ✅ **Allowed:** Tools for visualization, detection, stability analysis, and defensive filtering.
