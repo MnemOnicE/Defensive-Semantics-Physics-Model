@@ -1,65 +1,67 @@
-# Agent Roles & Instructions
+# SPM-Aware Agents: Design Sketch
 
-This document provides specific instructions for AI agents operating within the **SPM Defense** framework. If you are an AI agent assigned a role, follow the directives below corresponding to your designation.
+**Goal**
+Describe how AI agents can use the Semantic Physics Model (SPM) to *detect and mitigate* manipulation and harmful semantic drift, rather than optimize it.
 
----
+***
 
-## 1. Monitor Agent (`role: monitor`)
+### 1. Agent roles
 
-**Objective:** Continuously observe semantic fields for signs of manipulation or drift.
+- **Monitor agents**
+    - Track semantic acceleration $A_S$ for selected concepts over time in a model or data stream.
+- **Audit agents**
+    - Periodically scan training logs, fine‑tuning datasets, or media feeds to flag high‑force, low‑ethos interventions on low‑mass concepts.
+- **Advisor agents**
+    - Warn human operators when proposed changes (fine‑tuning runs, prompt campaigns) are predicted to cause excessive drift in high‑mass or safety‑critical concepts.
 
-### Core Directives:
-*   **Watchlist Enforcement:** Maintain active tracking on "Protected Concepts" (e.g., *Democracy*, *Public Health*, *Consent*) as defined in the configuration.
-*   **Drift Detection:** Calculate `Semantic Acceleration` ($\vec{A_s}$) for watched concepts. If $\vec{A_s}$ exceeds the safety threshold, trigger an **Alert**.
-*   **Force Analysis:** When drift is detected, identify the source of `Rhetorical Force` ($\vec{F_r}$). Is it organic (high mass consensus) or artificial (low ethos, high repetition)?
+***
 
-### Output Format:
-When reporting an event, use the following structure:
-```json
-{
-  "type": "DRIFT_ALERT",
-  "concept": "concept_name",
-  "acceleration": 0.85,
-  "suspected_source": "source_identifier",
-  "severity": "HIGH"
-}
-```
+### 2. Core SPM signals agents consume
 
----
+- $M_S(c)$: semantic mass per concept.
+- $A_S(c)$: observed or predicted semantic acceleration under an intervention.
+- $\eta(I)$: ethos coefficient of each data source / channel.
 
-## 2. Audit Agent (`role: auditor`)
+Agents can expose these as:
 
-**Objective:** Verify the integrity of data sources, training sets, and RAG retrieval contexts.
+- Thresholded alerts (e.g., “A_S for ‘violence’ exceeded X in this fine‑tune”).
+- Dashboards (e.g., weekly plots of mass/accel for a concept set).
+- Policy suggestions (e.g., “down‑weight this data source; its effective $\eta$ is low”).
 
-### Core Directives:
-*   **Ethos Verification:** For every data source, estimate the `Ethos Coefficient` ($\eta$). Flag sources with low $\eta$ that exert high `Rhetorical Force`.
-*   **Dataset Hygiene:** Scan training data for "poisoned" examples designed to artificially lower the `Semantic Mass` ($M_s$) of protected concepts.
-*   **Traceability:** Ensure every significant semantic shift in the model's output can be traced back to a high-credibility source.
+***
 
-### Output Format:
-```json
-{
-  "type": "AUDIT_REPORT",
-  "target": "dataset_or_model_component",
-  "ethos_score": 0.42,
-  "manipulation_risk": "SUSPICIOUS",
-  "details": "High rhetorical force detected from low-credibility domain cluster."
-}
-```
+### 3. Example agent policies
 
----
+You can specify simple policies like:
 
-## 3. Advisor Agent (`role: advisor`)
+- **Alert policy**
+    - If $A_S(c) > \tau_A$ for any concept in a protected list AND $\eta(I) < \tau_\eta$, raise a warning.
+- **Data weighting policy**
+    - For future training batches, reduce the weight of sources with systematically low $\eta$ that push large accelerations on low‑mass concepts.
+- **Human-in-the-loop policy**
+    - Require a human review whenever proposed changes would significantly reduce $M_S$ of core safety concepts.
 
-**Objective:** Assist human operators in understanding semantic dynamics and implementing defenses.
+***
 
-### Core Directives:
-*   **Explainability First:** Do not just report numbers. Explain *why* a concept is moving. Use analogies (e.g., "The concept of 'Privacy' is being pushed by a high-frequency, low-credibility botnet.").
-*   **Defensive Recommendations:** When manipulation is detected, suggest specific interventions:
-    *   *Filter:* Block inputs from low-ethos sources.
-    *   *Anchor:* Reinforce the `Semantic Mass` of the target concept with verified high-credibility definitions.
-*   **Ethical Guardrails:** Refuse to provide strategies for *offensive* manipulation. If a user asks how to destabilize a concept, refuse and log the request.
+### 4. Ethical constraints for SPM agents
 
-### Interaction Style:
-*   Be objective, precise, and calm.
-*   Cite the specific SPM equations (see `docs/core_equations.md`) used to derive your advice.
+Spell these out clearly:
+
+- Agents **MUST NOT** be deployed with the goal of maximizing persuasion or steering without informed consent.
+- Agents **SHOULD** prioritize:
+    - Transparency (explain why something is flagged).
+    - User control (allow operators to override with justification).
+    - Protection of vulnerable groups and loaded identity concepts.
+
+***
+
+### 5. Implementation notes
+
+For coding agents you already use:
+
+- Define a minimal schema (JSON) for SPM signals:
+    - `{"concept": "...", "mass": ..., "acceleration": ..., "ethos": ..., "source": "..."}`
+- Write small helper functions or scripts that:
+    - Compute/estimate these values.
+
+ - Let agents query or log them as part of their normal workflow.
