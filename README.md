@@ -3,7 +3,7 @@
 
 # Semantic Physics Model (SPM): Defense & Audit Toolkit
 
-**Status:** Experimental / Independent Research  
+**Status:** v3.0 (Experimental / Defense-Focused)
 **Author:** Mnemonic Silverstone  
 **License:** CC-BY 4.0 (Text/Theory) / MIT (Code)
 
@@ -12,35 +12,51 @@
 ## 🛡️ Mission Statement
 **The Semantic Physics Model (SPM)** is a theoretical framework for quantifying the "kinetics" of meaning in Large Language Models (LLMs). 
 
-This repository focuses exclusively on **SPM Defense**: the application of these principles to **detect, measure, and mitigate manipulation**. We do not build tools for persuasion optimization; we build radar for semantic drift. Our goal is to empower users, auditors, and safety researchers to see when and how concepts are being forcibly steered by low-credibility inputs.
+This repository implements the **SPM v3.0 Defense Architecture**, designed to **detect, measure, and mitigate manipulation**. We do not build tools for persuasion optimization; we build radar for semantic drift. Our goal is to empower users, auditors, and safety researchers to see when and how concepts are being forcibly steered by low-credibility inputs.
 
 ---
 
-## 🌌 Core Concept: The Dynamic Semantic Field
-Traditional NLP treats meaning as a static location in vector space. SPM treats meaning as a **dynamic object** with mass and velocity, subject to rhetorical forces.
+## 📂 Repository Structure
+
+* **`README.md`**: Overview, mission, and theoretical summary.
+* **`examples/`**:
+    * `demo_drift.py`: A "toy" simulation demonstrating the **Ethos Circuit Breaker** neutralizing a malicious bot attack.
+* **`src/spm_defense/`**: The core v3.0 Python implementation.
+    * `models.py`: Data structures for **Rhetorical Force Vectors** and **SPM Signals**.
+    * `calculations.py`: The physics engine implementing the **Hybrid-Proxy Mass** and **Circuit Breaker** logic.
+    * `tokenization.py`: Stubs for **HyperTokens** (v3.0 Topological Stability units).
+* **`docs/`**:
+    * `core_equations.md`: Formal mathematical definitions of the v3.0 standard.
+* **`agents.md`**: Design patterns for AI monitoring agents consuming SPM signals.
+* **`coding_agent.md`**: Guidelines for AI tools contributing to this codebase.
+
+---
+
+## 🌌 Core Concept: The Dynamic Semantic Field (v3.0)
+Traditional NLP treats meaning as a static location. SPM v3.0 treats meaning as a **dynamic object** with mass, velocity, and vector-based rhetorical forces.
 
 ### The Governing Equation
-The movement of any concept $c$ in the semantic field is governed by the **Second Postulate of Semantic Dynamics** (for rigorous definitions, see [Core Equations](docs/core_equations.md)):
+The movement of any concept $c$ is governed by the **Second Postulate of Semantic Dynamics**:
 
-$$\vec{A_s} = \frac{\eta \cdot \vec{F_r}}{M_s}$$
+$$\vec{A_s} = \frac{\eta \cdot \|\vec{F_r}\|}{M_s}$$
 
 Where:
-* **$\vec{A_s}$ (Semantic Acceleration):** The measured shift in a concept's meaning (vector displacement) over time.
-* **$\vec{F_r}$ (Rhetorical Force):** The vector quantity of the input's persuasive pressure (intensity, repetition, logic/emotion composition).
-* **$M_s$ (Semantic Mass):** The concept's resistance to change, derived from its network centrality and historical stability.
-* **$\eta$ (Ethos Coefficient):** A source-credibility damper ($0 \le \eta \le 1$). If the source is manipulative or untrustworthy, $\eta \to 0$, neutralizing the force.
+* **$\vec{A_s}$ (Semantic Acceleration):** The measured shift in meaning over time.
+* **$\vec{F_r}$ (Rhetorical Force Vector):** A decomposed vector ($Logos, Pathos, Ethos$) representing the specific *type* of persuasive pressure.
+* **$M_s$ (Semantic Mass):** The concept's resistance to change. In v3.0, this is calculated via a **Hybrid-Proxy** combining graph centrality and historical stability.
+* **$\eta$ (Ethos Coefficient):** A source-credibility damper with a **Circuit Breaker** threshold. If $\eta < 0.3$, the system triggers a **Hard Semantic Halt** ($\eta \to 0$).
 
 ---
 
 ## 🔭 Defensive Use Cases
 
 ### 1. Semantic Drift Radar
-Monitor specific "protected concepts" (e.g., *Democracy*, *Vaccine*, *Consent*) within a model or media stream.
-* **Alert Condition:** If a concept with high **Semantic Mass ($M_s$)** experiences sudden, high **Acceleration ($\vec{A_s}$)**, it indicates an artificial manipulation event.
+Monitor specific "protected concepts" (e.g., *Democracy*, *Vaccine*) within a model.
+* **Alert Condition:** If a High Mass ($M_s$) concept experiences sudden Acceleration ($\vec{A_s}$), flag it as a potential anomaly.
 
-### 2. Ethos-Aware Auditing
-Analyze fine-tuning datasets or RAG (Retrieval-Augmented Generation) sources.
-* **Method:** Calculate the **Ethos Coefficient ($\eta$)** for data sources. Flag instances where high **Rhetorical Force ($\vec{F_r}$)** correlates with low $\eta$ (i.e., high-pressure propaganda from low-trust sources).
+### 2. Rhetorical Weather Mapping
+Analyze the *composition* of incoming forces using the v3.0 Force Vector.
+* **Transparency:** "This input is 90% *Pathos* (Emotion) and 0% *Logos* (Evidence)."
 
 ### 3. Training Stability Checks
 Prevent "Catastrophic Semantic Forgetting" during model updates.
@@ -51,18 +67,6 @@ Prevent "Catastrophic Semantic Forgetting" during model updates.
 ## 🤝 Contributing & Ethics
 This project is open-source to prevent the hoarding of semantic control techniques.
 
-*   **For AI Agents:** See [Agent Instructions](agents.md).
-*   **For Developers:** See [Coding Guidelines](coding_agent.md).
-
 **Ethical Boundary:**
 * ✅ **Allowed:** Tools for visualization, detection, stability analysis, and defensive filtering.
 * ❌ **Forbidden:** Using SPM to optimize covert persuasion, generated propaganda, or non-consensual behavioral steering.
-
-**Seeking Feedback On:**
-* Metric design for **Semantic Mass ($M_s$)** (e.g., PageRank vs. Diachronic embeddings).
-* Quantification methods for **Rhetorical Force ($\vec{F_r}$)**.
-* Validation experiments for the Ethos Coefficient.
-
----
-
-*“Meaning is not just where you are; it is how hard it is to move you.”*
