@@ -27,8 +27,9 @@ This repository implements the **SPM v3.0 Defense Architecture**, designed to **
     * `tokenization.py`: Stubs for **HyperTokens** (v3.0 Topological Stability units).
 * **`docs/`**:
     * `core_equations.md`: Formal mathematical definitions of the v3.0 standard.
-* **`agents.md`**: Design patterns for AI monitoring agents consuming SPM signals.
+* **`spm_agents_design.md`**: Design patterns for AI monitoring agents consuming SPM signals.
 * **`coding_agent.md`**: Guidelines for AI tools contributing to this codebase.
+* **`agents.md`**: Directives and Persona Protocols for AI agents working in this repository.
 
 ---
 
