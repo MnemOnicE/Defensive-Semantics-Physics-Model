@@ -1,0 +1,89 @@
+Metadata-Version: 2.4
+Name: spm-defense
+Version: 0.3.0
+Summary: Semantic Physics Model (SPM) Defense Architecture v3.0
+Author: Mnemonic Silverstone
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Dynamic: license-file
+
+# **Defensive-Semantics-Physics-Model**
+---
+
+# Semantic Physics Model (SPM): Defense & Audit Toolkit
+
+**Status:** v3.0 (Experimental / Defense-Focused)
+**Author:** Mnemonic Silverstone
+**License:** CC-BY 4.0 (Text/Theory) / MIT (Code)
+
+---
+
+## 🛡️ Mission Statement
+**The Semantic Physics Model (SPM)** is a theoretical framework for quantifying the "kinetics" of meaning in Large Language Models (LLMs).
+
+This repository implements the **SPM v3.0 Defense Architecture**, designed to **detect, measure, and mitigate manipulation**. We do not build tools for persuasion optimization; we build radar for semantic drift. Our goal is to empower users, auditors, and safety researchers to see when and how concepts are being forcibly steered by low-credibility inputs.
+
+---
+
+## 📂 Repository Structure
+
+* **`README.md`**: Overview, mission, and theoretical summary.
+* **`examples/`**:
+    * `demo_drift.py`: A "toy" simulation demonstrating the **Ethos Circuit Breaker** neutralizing a malicious bot attack.
+* **`src/spm_defense/`**: The core v3.0 Python implementation.
+    * `models.py`: Data structures for **Rhetorical Force Vectors** and **SPM Signals**.
+    * `calculations.py`: The physics engine implementing the **Hybrid-Proxy Mass** and **Circuit Breaker** logic.
+    * `tokenization.py`: Stubs for **HyperTokens** (v3.0 Topological Stability units).
+* **`docs/`**:
+    * `core_equations.md`: Formal mathematical definitions of the v3.0 standard.
+* **`agents.md`**: Design patterns for AI monitoring agents consuming SPM signals.
+* **`coding_agent.md`**: Guidelines for AI tools contributing to this codebase.
+
+---
+
+## 🌌 Core Concept: The Dynamic Semantic Field (v3.0)
+Traditional NLP treats meaning as a static location. SPM v3.0 treats meaning as a **dynamic object** with mass, velocity, and vector-based rhetorical forces.
+
+### The Governing Equation
+The movement of any concept $c$ is governed by the **Second Postulate of Semantic Dynamics**:
+
+$$\vec{A_s} = \frac{\eta \cdot \|\vec{F_r}\|}{M_s}$$
+
+Where:
+* **$\vec{A_s}$ (Semantic Acceleration):** The measured shift in meaning over time.
+* **$\vec{F_r}$ (Rhetorical Force Vector):** A decomposed vector ($Logos, Pathos, Ethos$) representing the specific *type* of persuasive pressure.
+* **$M_s$ (Semantic Mass):** The concept's resistance to change. In v3.0, this is calculated via a **Hybrid-Proxy** combining graph centrality and historical stability.
+* **$\eta$ (Ethos Coefficient):** A source-credibility damper with a **Circuit Breaker** threshold. If $\eta < 0.3$, the system triggers a **Hard Semantic Halt** ($\eta \to 0$).
+
+---
+
+## 🔭 Defensive Use Cases
+
+### 1. Semantic Drift Radar
+Monitor specific "protected concepts" (e.g., *Democracy*, *Vaccine*) within a model.
+* **Alert Condition:** If a High Mass ($M_s$) concept experiences sudden Acceleration ($\vec{A_s}$), flag it as a potential anomaly.
+
+### 2. Rhetorical Weather Mapping
+Analyze the *composition* of incoming forces using the v3.0 Force Vector.
+* **Transparency:** "This input is 90% *Pathos* (Emotion) and 0% *Logos* (Evidence)."
+
+### 3. Training Stability Checks
+Prevent "Catastrophic Semantic Forgetting" during model updates.
+* **Method:** Ensure that the training loss function penalizes acceleration on high-mass concepts unless sufficient evidence ($\eta$) is provided.
+
+---
+
+## 🤝 Contributing & Ethics
+This project is open-source to prevent the hoarding of semantic control techniques.
+
+**Ethical Boundary:**
+* ✅ **Allowed:** Tools for visualization, detection, stability analysis, and defensive filtering.
+* ❌ **Forbidden:** Using SPM to optimize covert persuasion, generated propaganda, or non-consensual behavioral steering.

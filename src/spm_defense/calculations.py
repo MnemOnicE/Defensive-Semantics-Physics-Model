@@ -1,9 +1,11 @@
 import math
 from .models import RhetoricalForceVector
 
+
 def sigmoid(x: float) -> float:
     """Standard sigmoid function."""
     return 1 / (1 + math.exp(-x))
+
 
 def estimate_semantic_mass_proxy(
     centrality: float,
@@ -13,7 +15,8 @@ def estimate_semantic_mass_proxy(
 ) -> float:
     """
     Calculates Semantic Mass (Ms) for a concept.
-    Approximates the v3.0 Topological Stability (Ms) using efficient graph centrality and variance proxies, as defined in the Hybrid-Proxy Protocol.
+    Approximates the v3.0 Topological Stability (Ms) using efficient graph centrality
+    and variance proxies, as defined in the Hybrid-Proxy Protocol.
 
     Formula: Ms(c) = alpha * C(c) + beta * T_stability(c)
 
@@ -27,6 +30,7 @@ def estimate_semantic_mass_proxy(
         float: The calculated Semantic Mass.
     """
     return alpha * centrality + beta * stability
+
 
 def calculate_force_vector(
     logos: float,
@@ -45,6 +49,7 @@ def calculate_force_vector(
         RhetoricalForceVector: The decomposed rhetorical force vector.
     """
     return RhetoricalForceVector(logos=logos, pathos=pathos, ethos=ethos)
+
 
 def calculate_ethos_coefficient(
     reliability_history: float,
@@ -70,6 +75,7 @@ def calculate_ethos_coefficient(
     if eta < threshold:
         return 0.0
     return eta
+
 
 def calculate_semantic_acceleration(
     force_magnitude: float,

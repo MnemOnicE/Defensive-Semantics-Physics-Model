@@ -1,14 +1,14 @@
 import unittest
 import json
 import math
-from src.spm_defense.models import SPMSignal, RhetoricalForceVector
-from src.spm_defense.calculations import (
+from spm_defense.models import SPMSignal, RhetoricalForceVector
+from spm_defense.calculations import (
     estimate_semantic_mass_proxy,
     calculate_force_vector,
     calculate_ethos_coefficient,
-    calculate_semantic_acceleration,
-    sigmoid
+    calculate_semantic_acceleration
 )
+
 
 class TestSPMModels(unittest.TestCase):
     def test_spm_signal_serialization(self):
@@ -35,6 +35,7 @@ class TestSPMModels(unittest.TestCase):
         self.assertEqual(data["ethos"], 0.2)
         self.assertEqual(data["source"], "unknown_botnet")
 
+
 class TestSPMCalculations(unittest.TestCase):
 
     def test_estimate_semantic_mass_proxy(self):
@@ -43,7 +44,9 @@ class TestSPMCalculations(unittest.TestCase):
         self.assertEqual(mass, 15)
 
         # Ms = 0.5 * 10 + 2.0 * 5 = 5 + 10 = 15
-        mass = estimate_semantic_mass_proxy(centrality=10, stability=5, alpha=0.5, beta=2.0)
+        mass = estimate_semantic_mass_proxy(
+            centrality=10, stability=5, alpha=0.5, beta=2.0
+        )
         self.assertEqual(mass, 15)
 
     def test_calculate_force_vector(self):
@@ -67,29 +70,38 @@ class TestSPMCalculations(unittest.TestCase):
         # Circuit Breaker Test
         # eta = sigmoid(-2) approx 0.119
         # 0.119 < 0.3 -> Should snap to 0.0
-        ethos_snap = calculate_ethos_coefficient(reliability_history=-2, bias_penalty=0, threshold=0.3)
+        ethos_snap = calculate_ethos_coefficient(
+            reliability_history=-2, bias_penalty=0, threshold=0.3
+        )
         self.assertEqual(ethos_snap, 0.0)
 
         # Test just above threshold
         # We need sigmoid(x) > 0.3
         # sigmoid(-0.8) approx 0.31 -> should return ~0.31
-        ethos_border = calculate_ethos_coefficient(reliability_history=-0.8, bias_penalty=0, threshold=0.3)
+        ethos_border = calculate_ethos_coefficient(
+            reliability_history=-0.8, bias_penalty=0, threshold=0.3
+        )
         self.assertGreater(ethos_border, 0.3)
         self.assertAlmostEqual(ethos_border, 1 / (1 + math.exp(0.8)))
 
     def test_semantic_acceleration(self):
         # As = (0.5 * 10) / 5 = 1.0
-        acc = calculate_semantic_acceleration(force_magnitude=10, mass=5, ethos=0.5)
+        acc = calculate_semantic_acceleration(
+            force_magnitude=10, mass=5, ethos=0.5
+        )
         self.assertEqual(acc, 1.0)
 
         # Integration test style
-        vec = calculate_force_vector(3, 4, 0) # mag 5
-        acc_integ = calculate_semantic_acceleration(force_magnitude=vec.magnitude, mass=5, ethos=1.0)
+        vec = calculate_force_vector(3, 4, 0)  # mag 5
+        acc_integ = calculate_semantic_acceleration(
+            force_magnitude=vec.magnitude, mass=5, ethos=1.0
+        )
         self.assertEqual(acc_integ, 1.0)
 
     def test_semantic_acceleration_zero_mass(self):
         with self.assertRaises(ValueError):
             calculate_semantic_acceleration(force_magnitude=10, mass=0, ethos=0.5)
+
 
 if __name__ == '__main__':
     unittest.main()
