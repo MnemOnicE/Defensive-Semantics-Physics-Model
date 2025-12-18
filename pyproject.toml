@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spm-defense"
+version = "0.3.0"
+description = "Semantic Physics Model (SPM) Defense Architecture v3.0"
+readme = "README.md"
+authors = [
+  { name="Mnemonic Silverstone" },
+]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "flake8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

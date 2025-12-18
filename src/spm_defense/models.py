@@ -3,6 +3,7 @@ import json
 import math
 from typing import Any, Dict
 
+
 @dataclass
 class RhetoricalForceVector:
     """
@@ -10,12 +11,13 @@ class RhetoricalForceVector:
     Allows for 'Rhetorical Weather Map' transparency.
     """
     logos: float  # Logic/Evidence force
-    pathos: float # Emotional force
+    pathos: float  # Emotional force
     ethos: float  # Source authority force (distinct from the Ethos Coefficient eta)
 
     @property
     def magnitude(self) -> float:
         return math.sqrt(self.logos**2 + self.pathos**2 + self.ethos**2)
+
 
 @dataclass
 class SPMSignal:
