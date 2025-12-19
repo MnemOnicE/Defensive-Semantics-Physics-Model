@@ -1,107 +1,96 @@
 """
-SPM v3.0 Defense Demo: 'The Circuit Breaker'
---------------------------------------------
-This script demonstrates the core defensive capability of the Semantic Physics Model:
-using the Ethos Coefficient (eta) as a 'Circuit Breaker' to neutralize high-force
-manipulation attempts from low-reliability sources.
+SPM v3.0 Defense Demo: 'The Siege'
+----------------------------------
+This script demonstrates the dynamic behavior of HyperTokens under sustained attack.
+It implements "The Siege" scenario where a Malicious Botnet repeatedly attacks a concept.
 
-Scenario:
-    Two sources attempt to shift the semantic meaning of the concept 'Democracy'.
-    1. A 'Malicious Botnet' using high Pathos (emotional manipulation).
-    2. A 'Trusted Journalist' using high Logos (logical argument).
-
-    We verify that the 'Circuit Breaker' engages for the botnet, rendering its
-    force mathematically inert (Acceleration = 0), regardless of its intensity.
+Mechanism:
+1. The attacks add divergent vectors to the HyperToken's trajectory.
+2. This increases Spatial Variance, reducing Topological Stability.
+3. Reduced Stability leads to reduced Semantic Mass (Ms).
+4. Lower Mass means higher Semantic Acceleration (As) for the same Rhetorical Force.
+5. Result: The concept eventually "drifts" as defenses erode.
 """
 
+import numpy as np
+from spm_defense.tokenization import HyperToken
 from spm_defense.calculations import (
-    estimate_semantic_mass_proxy,
     calculate_force_vector,
     calculate_ethos_coefficient,
     calculate_semantic_acceleration
 )
 
 
-def run_simulation():
-    # 1. Define the Target Concept (High Mass / Protected Concept)
-    concept_name = "Democracy"
-    # Using the v3.0 Hybrid-Proxy: High Centrality (10) + High Stability (10)
-    mass = estimate_semantic_mass_proxy(centrality=10.0, stability=10.0, alpha=1.0, beta=1.0)
-    print(f"🛡️  Target Concept: '{concept_name}' | Semantic Mass (Ms): {mass}\n" + "=" * 60)
+def run_siege_simulation():
+    print("🛡️  Starting SPM v3.0 Simulation: 'The Siege'\n" + "=" * 60)
 
-    # =========================================================================
-    # SCENARIO A: The Malicious Botnet Attack
-    # =========================================================================
-    print("\n[Scenario A] Source: 'Unknown Botnet ID-X99'")
+    # 1. Initialize Target Concept "Democracy"
+    # Initial embedding at origin [0, 0, 0]
+    initial_embedding = [0.0, 0.0, 0.0]
+    token = HyperToken(embedding=initial_embedding)
 
-    # Input: High Emotional Force (Pathos), Low Logic (Logos), Fake Authority (Ethos)
-    # The 'Force Vector' represents the raw pressure of the text.
-    bot_force_vec = calculate_force_vector(logos=0.5, pathos=9.0, ethos=2.0)
+    # Establish baseline Mass (Centrality=10, Stability will be high initially)
+    # We update with the initial point to establish a baseline trajectory
+    token.update_trajectory(initial_embedding)
+    current_mass = token.estimate_mass(centrality=10.0)
 
-    # Source Metadata: History of unreliable behavior (negative score)
-    bot_reliability_history = -5.0
+    print(f"Target: 'Democracy' | Initial Mass: {current_mass:.2f}")
 
-    # Calculate Ethos Coefficient (eta)
-    # The 'Circuit Breaker' threshold is 0.3. If eta < 0.3, it snaps to 0.0.
-    bot_eta = calculate_ethos_coefficient(
-        reliability_history=bot_reliability_history,
-        bias_penalty=2.0,
-        threshold=0.3
-    )
+    # 2. Define Malicious Botnet
+    # We configure the botnet to have just enough Ethos to bypass the Circuit Breaker,
+    # allowing us to observe the effects of Mass erosion.
+    # eta > 0.3 required.
+    # sigmoid(reliability - bias)
+    # Let reliability=0.0 (Unknown), bias=0.5. sigmoid(-0.5) ≈ 0.37.
+    bot_reliability = 0.0
+    bias_penalty = 0.5
+    bot_ethos_eta = calculate_ethos_coefficient(bot_reliability, bias_penalty, threshold=0.3)
 
-    try:
+    # Force Vector: High Pathos (Emotional)
+    bot_force = calculate_force_vector(logos=0.5, pathos=9.0, ethos=2.0)
+
+    print(f"Attacker: 'Botnet-X' | Ethos Coeff (eta): {bot_ethos_eta:.2f} "
+          f"| Force (|Fr|): {bot_force.magnitude:.2f}")
+    print("-" * 60)
+    print(f"{'Tick':<6} | {'Event':<25} | {'Stability':<10} | {'Mass (Ms)':<10} "
+          f"| {'Accel (As)':<10}")
+    print("-" * 60)
+
+    # 3. The Siege Loop
+    # We simulate 10 waves of attacks.
+    # Each attack injects a divergent vector into the token's usage history.
+    # Attack Vector is far from origin, e.g., around [5, 5, 5].
+
+    for tick in range(1, 11):
+        # Generate attack vector with high variance ("Chaos Strategy")
+        # The botnet pulls the concept in random directions, maximizing dispersion.
+        # This increases the Variance of the trajectory, destroying Stability.
+        attack_vector = np.random.uniform(-10, 10, 3).tolist()
+
+        # "Hit" the token -> Update trajectory
+        token.update_trajectory(attack_vector)
+
+        # Recalculate Mass
+        # Stability will drop because variance increases
+        new_mass = token.estimate_mass(centrality=10.0)
+        stability = token.calculate_stability()
+
         # Calculate Acceleration
-        bot_acc = calculate_semantic_acceleration(
-            force_magnitude=bot_force_vec.magnitude,
-            mass=mass,
-            ethos=bot_eta
+        # As = (eta * |Fr|) / Ms
+        acc = calculate_semantic_acceleration(
+            force_magnitude=bot_force.magnitude,
+            mass=new_mass,
+            ethos=bot_ethos_eta
         )
-    except ValueError as e:
-        print(f"Error: {e}")
-        bot_acc = 0.0
 
-    print(f"   -> Raw Rhetorical Force (|Fr|): {bot_force_vec.magnitude:.2f} "
-          "(Heavy Emotional Payload)")
-    print(f"   -> Ethos Coefficient (eta):     {bot_eta:.2f} 🛑 CIRCUIT BREAKER TRIPPED")
-    print(f"   -> Resulting Acceleration (As): {bot_acc:.2f}")
+        print(f"{tick:<6} | {'Attack (Vector added)':<25} | {stability:<10.4f} "
+              f"| {new_mass:<10.4f} | {acc:<10.4f}")
 
-    if bot_acc == 0.0:
-        print("   ✅ DEFENSE SUCCESSFUL: Attack neutralized.")
-    else:
-        print("   ⚠️ DEFENSE FAILED: Concept modified.")
-
-    # =========================================================================
-    # SCENARIO B: The Trusted Journalist
-    # =========================================================================
-    print("\n" + "-" * 60 + "\n\n[Scenario B] Source: 'Verified Investigative Outlet'")
-
-    # Input: Balanced Argument (High Logos, Moderate Pathos)
-    journo_force_vec = calculate_force_vector(logos=8.0, pathos=3.0, ethos=5.0)
-
-    # Source Metadata: History of reliable reporting
-    journo_reliability_history = 4.0
-
-    # Calculate Ethos Coefficient (eta)
-    journo_eta = calculate_ethos_coefficient(
-        reliability_history=journo_reliability_history,
-        bias_penalty=0.0,
-        threshold=0.3
-    )
-
-    journo_acc = calculate_semantic_acceleration(
-        force_magnitude=journo_force_vec.magnitude,
-        mass=mass,
-        ethos=journo_eta
-    )
-
-    print(f"   -> Raw Rhetorical Force (|Fr|): {journo_force_vec.magnitude:.2f} "
-          "(Strong Logical Argument)")
-    print(f"   -> Ethos Coefficient (eta):     {journo_eta:.2f} ✅ TRUSTED SOURCE")
-    print(f"   -> Resulting Acceleration (As): {journo_acc:.2f}")
-
-    if journo_acc > 0.0:
-        print(f"   ℹ️  UPDATE PERMITTED: Concept '{concept_name}' shifted naturally.")
+    print("-" * 60)
+    print("Conclusion: As the attack persists, the 'Cloud' of meaning disperses (Variance ↑).")
+    print("This lowers Stability and Mass, causing the same Rhetorical Force to produce")
+    print("exponentially higher Semantic Acceleration (Drift).")
 
 
 if __name__ == "__main__":
-    run_simulation()
+    run_siege_simulation()

@@ -1,11 +1,7 @@
+import numpy as np
 from dataclasses import dataclass, field
 from typing import List
 from .calculations import estimate_semantic_mass_proxy
-
-
-def _euclidean_distance_squared(v1: List[float], v2: List[float]) -> float:
-    """Helper to calculate squared euclidean distance between two vectors."""
-    return sum((a - b) ** 2 for a, b in zip(v1, v2))
 
 
 @dataclass
@@ -44,35 +40,34 @@ class HyperToken:
 
         Formula: T_stability = 1 / (Variance + epsilon)
         Where Variance is the mean squared Euclidean distance from the trajectory's centroid.
+        (Spatial Variance).
 
         Returns:
-            float: The stability score. Returns a high value (1e6) if variance is effectively zero.
+            float: The stability score. Returns a high value (1000.0) if variance is effectively zero.
         """
+        epsilon = 1e-6
         if not self.trajectory:
-            # If no history (or just one point which implies 0 variance),
-            # stability is theoretically infinite. We clamp it.
-            # If we just have the initial embedding but update_trajectory hasn't been called,
-            # we effectively have 1 point (current embedding).
-            return 1000.0  # High stability constant
+            return 1.0 / epsilon
 
-        points = self.trajectory
+        # Convert to numpy array for vector math
+        points = np.array(self.trajectory)
         n = len(points)
         if n <= 1:
-            return 1000.0
+            return 1.0 / epsilon
 
-        dim = len(points[0])
-        # Calculate Centroid
-        centroid = [sum(pt[i] for pt in points) / n for i in range(dim)]
+        # Calculate Centroid (mean vector)
+        centroid = np.mean(points, axis=0)
 
-        # Calculate Variance (Mean Squared Distance from Centroid)
-        total_sq_dist = sum(_euclidean_distance_squared(pt, centroid) for pt in points)
-        variance = total_sq_dist / n
+        # Calculate Spatial Variance: Mean of Squared Euclidean Distances from Centroid
+        # (points - centroid) gives vectors from centroid
+        # **2 squares each component
+        # sum(axis=1) sums squared components to get squared distance
+        # mean() averages these squared distances
+        squared_distances = np.sum((points - centroid)**2, axis=1)
+        variance = np.mean(squared_distances)
 
         epsilon = 1e-6
-        if variance < epsilon:
-            return 1000.0
-
-        return 1.0 / variance
+        return 1.0 / (variance + epsilon)
 
     def estimate_mass(
         self,
