@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 from dataclasses import dataclass, field
-from .models import SPMSignal, RhetoricalForceVector
+from .models import SPMSignal
 from .tokenization import HyperToken
 from .calculations import (
     calculate_force_vector,
@@ -114,11 +114,13 @@ class MonitorAgent:
         """
         warnings = []
         if signal.acceleration > self.acceleration_threshold:
-            warnings.append(f"High Acceleration ({signal.acceleration:.2f} > {self.acceleration_threshold})")
+            warnings.append(
+                f"High Acceleration ({signal.acceleration:.2f} > {self.acceleration_threshold})"
+            )
 
         # Check for high force from low ethos source (Manipulation attempt)
         if signal.ethos < self.ethos_threshold and signal.force_vector.magnitude > 5.0:
-             warnings.append(f"Low Ethos Source attempting High Force")
+            warnings.append("Low Ethos Source attempting High Force")
 
         if warnings:
             return f"ALERT [{signal.concept}]: " + "; ".join(warnings)

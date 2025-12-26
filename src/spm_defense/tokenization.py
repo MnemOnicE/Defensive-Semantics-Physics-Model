@@ -43,7 +43,8 @@ class HyperToken:
         (Spatial Variance).
 
         Returns:
-            float: The stability score. Returns a high value (1000.0) if variance is effectively zero.
+            float: The stability score. Returns a high value (1000.0)
+                   if variance is effectively zero.
         """
         epsilon = 1e-6
         if not self.trajectory:
