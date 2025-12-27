@@ -93,7 +93,9 @@ def test_ethos_coefficient_boundary():
     assert ethos == 0.5
 
     # eta = 0.5. threshold = 0.5000001
-    ethos_snap = calculate_ethos_coefficient(reliability_history=0, bias_penalty=0, threshold=0.5000001)
+    ethos_snap = calculate_ethos_coefficient(
+        reliability_history=0, bias_penalty=0, threshold=0.5000001
+    )
     assert ethos_snap == 0.0
 
 
