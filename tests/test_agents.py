@@ -1,13 +1,14 @@
-import pytest
 from spm_defense.agents import MonitorAgent
 from spm_defense.models import SPMSignal
 from spm_defense.tokenization import HyperToken
+
 
 def test_monitor_agent_initialization():
     agent = MonitorAgent()
     assert agent.concepts == {}
     assert agent.alpha == 1.0
     assert agent.beta == 1.0
+
 
 def test_monitor_agent_process_observation():
     agent = MonitorAgent()
@@ -33,6 +34,7 @@ def test_monitor_agent_process_observation():
     # So if we init and update immediately, we get 2 points.
     assert len(token.trajectory) == 2
     assert token.trajectory[0] == [0.0, 0.0]
+
 
 def test_monitor_agent_acceleration_logic():
     agent = MonitorAgent()
@@ -78,6 +80,7 @@ def test_monitor_agent_acceleration_logic():
     # Acc should be > 1.0.
     assert signal2.acceleration > 1.0
 
+
 def test_monitor_agent_alert_system():
     agent = MonitorAgent(acceleration_threshold=5.0)
 
@@ -92,7 +95,7 @@ def test_monitor_agent_alert_system():
     # If Mass is low (e.g. 2.0), and Force is 17 (from 10,10,10), Acc is 8.5 > 5.0.
 
     # Pre-load trajectory with variance
-    agent.concepts["Volatile"].trajectory = [[0,0], [10,10], [-10,-10]]
+    agent.concepts["Volatile"].trajectory = [[0, 0], [10, 10], [-10, -10]]
 
     signal = agent.process_observation(
         concept="Volatile",
@@ -100,12 +103,13 @@ def test_monitor_agent_alert_system():
         logos=10.0, pathos=10.0, ethos_force=10.0,
         source="Trusted",
         source_reliability=5.0, source_bias=0.0,
-        centrality=0.0 # Zero centrality to minimize mass
+        centrality=0.0  # Zero centrality to minimize mass
     )
 
     alert = agent.check_alert(signal)
     assert alert is not None
     assert "High Acceleration" in alert
+
 
 def test_monitor_agent_ethos_circuit_breaker():
     agent = MonitorAgent(ethos_threshold=0.3)

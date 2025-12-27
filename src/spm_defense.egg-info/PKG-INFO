@@ -17,6 +17,14 @@ Requires-Dist: flake8; extra == "dev"
 Dynamic: license-file
 
 # **Defensive-Semantics-Physics-Model**
+
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)
+![Code style: flake8](https://img.shields.io/badge/code%20style-flake8-000000.svg)
+![Status](https://img.shields.io/badge/Status-Experimental-orange)
+![SPM](https://img.shields.io/badge/SPM-v3.0-blueviolet)
+
 ---
 
 # Semantic Physics Model (SPM): Defense & Audit Toolkit
