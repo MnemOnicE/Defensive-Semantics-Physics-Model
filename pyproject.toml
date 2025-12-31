@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "spm-defense"
 version = "0.3.0"
-description = "Semantic Physics Model (SPM) Defense Architecture v3.0"
+description = "SPM Defense Architecture v3.0 (Code: MIT | Theory: CC BY-NC-SA 4.0)"
 readme = "README.md"
 authors = [
   { name="Mnemonic Silverstone" },
