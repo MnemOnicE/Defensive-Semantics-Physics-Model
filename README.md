@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)
+![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey.svg)
 ![Code style: flake8](https://img.shields.io/badge/code%20style-flake8-000000.svg)
 ![Status](https://img.shields.io/badge/Status-Experimental-orange)
 ![SPM](https://img.shields.io/badge/SPM-v3.0-blueviolet)
@@ -13,7 +13,7 @@
 
 **Status:** v3.0 (Experimental / Defense-Focused)
 **Author:** Mnemonic Silverstone  
-**License:** CC-BY 4.0 (Text/Theory) / MIT (Code)
+**License:** CC-BY-NC-SA 4.0 (Text/Theory) / MIT (Code)
 
 ---
 
@@ -21,6 +21,15 @@
 **The Semantic Physics Model (SPM)** is a theoretical framework for quantifying the "kinetics" of meaning in Large Language Models (LLMs). 
 
 This repository implements the **SPM v3.0 Defense Architecture**, designed to **detect, measure, and mitigate manipulation**. We do not build tools for persuasion optimization; we build radar for semantic drift. Our goal is to empower users, auditors, and safety researchers to see when and how concepts are being forcibly steered by low-credibility inputs.
+
+---
+
+## 🛑 Anti-Exploitation Clause
+The Semantic Physics Model is designed as defensive infrastructure.
+
+**Misrepresentation:** Any use of this model to optimize covert persuasion, generated propaganda, or behavioral steering is considered a violation of the intended "Scientific Integrity" of the work.
+
+**Commercial Use:** Entities intending to utilize this theoretical framework for profit-generating activities must contact the author for a commercial licensing agreement.
 
 ---
 
